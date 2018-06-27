@@ -4,9 +4,10 @@
 const
   express = require('express'),
   bodyParser = require('body-parser'),
-  app = express().use(bodyParser.json()), // creates express http server
-  verify = process.env.FB_VERIFY,
-  access = process.env.FB_ACCESS
+  app = express().use(bodyParser.json()) // creates express http server
+
+const  verify = process.env.FB_VERIFY;
+const  access = process.env.FB_ACCESS;
 
 
 
