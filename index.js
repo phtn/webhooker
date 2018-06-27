@@ -4,7 +4,11 @@
 const
   express = require('express'),
   bodyParser = require('body-parser'),
-  app = express().use(bodyParser.json()); // creates express http server
+  app = express().use(bodyParser.json()), // creates express http server
+  verify = process.env.FB_VERIFY,
+  access = process.env.FB_ACCESS
+
+
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -27,8 +31,10 @@ app.post('/webhook', (req, res) => {
       // will only ever contain one message, so we get index 0
       let webhook_event = entry.messaging[0];
       console.log(webhook_event);
+      let sender_psid = webhook_event.sender_psid;
+      console.log('sender_psid: ', sender_psid)
     });
-
+    
     // Returns a '200 OK' response to all requests
     res.status(200).send('EVENT_RECEIVED');
   } else {
@@ -44,7 +50,7 @@ app.get('/webhook', (req, res) => {
 
   // res.send('Webhooked!')
   // Your verify token. Should be a random string.
-  let VERIFY_TOKEN = "salve_world"
+  // let VERIFY_TOKEN = "salve_world"
     
   // Parse the query params
   let mode = req.query['hub.mode'];
@@ -55,7 +61,7 @@ app.get('/webhook', (req, res) => {
   if (mode && token) {
   
     // Checks the mode and token sent is correct
-    if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+    if (mode === 'subscribe' && token === FB_VERIFY) {
       
       // Responds with the challenge token from the request
       console.log('WEBHOOK_VERIFIED');
@@ -67,3 +73,48 @@ app.get('/webhook', (req, res) => {
     }
   }
 });
+
+// Handles messages events
+function handleMessage(sender_psid, received_message) {
+  let response;
+
+  // Check if the message contains text
+  if (received_message.text) {    
+
+    // Create the payload for a basic text message
+    response = {
+      "text": `You: ${received_message.text}`
+    }
+  }  
+  
+  // Sends the response message
+  callSendAPI(sender_psid, response);  
+}
+
+// Handles messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+
+}
+
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response) {
+  // Construct the message body
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": response
+  }
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": FB_ACCESS },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent!')
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  }); 
+}
