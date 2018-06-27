@@ -66,7 +66,7 @@ app.get('/webhook', (req, res) => {
   if (mode && token) {
   
     // Checks the mode and token sent is correct
-    if (mode === 'subscribe' && token === FB_VERIFY) {
+    if (mode === 'subscribe' && token === verify) {
       
       // Responds with the challenge token from the request
       console.log('WEBHOOK_VERIFIED');
@@ -112,7 +112,7 @@ function callSendAPI(sender_psid, response) {
   }
   request({
     "uri": "https://graph.facebook.com/v2.6/me/messages",
-    "qs": { "access_token": FB_ACCESS },
+    "qs": { "access_token": access },
     "method": "POST",
     "json": request_body
   }, (err, res, body) => {
