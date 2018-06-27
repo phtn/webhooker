@@ -42,7 +42,7 @@ app.post('/webhook', (req, res) => {
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
 
-  res.send('Webhooked!')
+  // res.send('Webhooked!')
   // Your verify token. Should be a random string.
   let VERIFY_TOKEN = "salve_world"
     
