@@ -129,9 +129,9 @@ function handleMessage(sender_psid, received_message) {
           "template_type": "generic",
           "elements": [
             {
-            "title": "Awesome! 😃",
+            "title": "Photo received! This is awesome! 😃",
             "subtitle": "Do you have more to share?",
-            "image_url": postbackImages[Math.floor(Math.random()*postbackImages.length)],
+            "image_url": attachment_url,
             "buttons": [
               {
                 "type": "postback",
