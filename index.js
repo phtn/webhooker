@@ -122,7 +122,7 @@ function handleMessage(sender_psid, received_message) {
           "template_type": "generic",
           "elements": [
             {
-            "title": "Awesome!",
+            "title": "Awesome! 😃",
             "subtitle": "Do you have more to share?",
             "image_url": attachment_url,
             "buttons": [
@@ -152,12 +152,25 @@ function handlePostback(sender_psid, received_postback) {
    let response;
   // Get the payload for the postback
   let payload = received_postback.payload;
+  let profileUrl = `https://graph.facebook.com/v2.6/${sender_psid}?fields=first_name&access_token=${PAGE_ACCESS_TOKEN}`
+
+  const getFirstName = url => {
+    request({
+      url: url,
+      json: true
+    }, function(err, res, body){
+      if(!err && res.statusCode === 200){
+        return body.first_name
+      }
+    })
+  }
+  
 
   // Set the response based on the postback payload
   if (payload === 'yes') {
-    response = { "text": "Nice! 👍" }
+    response = { "text": `Nice!!👍 You deserve a raise ${getFirstName(profileUrl)}! 🤑` }
   } else if (payload === 'no') {
-    response = { "text": "Okay... 😒 " }
+    response = { "text": "Okay... I'll tell Harry about it 😒 " }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -188,5 +201,9 @@ function callSendAPI(sender_psid, response) {
 }
 
 const emojis = [
+  "😒","😍","😃","🤔","☺️","🤐","😲"
+]
+
+const reactions = [
   "😒","😍","😃","🤔","☺️","🤐","😲"
 ]
