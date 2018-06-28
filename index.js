@@ -110,7 +110,7 @@ function handleMessage(sender_psid, received_message) {
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
     response = {
-      "text": `😀`
+      "text": emojis[Math.floor(Math.random()*emojis.length)];
     }
   } else if (received_message.attachments) {
     // Get the URL of the message attachment
@@ -120,9 +120,10 @@ function handleMessage(sender_psid, received_message) {
         "type": "template",
         "payload": {
           "template_type": "generic",
-          "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
+          "elements": [
+            {
+            "title": "Awesome!",
+            "subtitle": "Do you have more to share?",
             "image_url": attachment_url,
             "buttons": [
               {
@@ -154,9 +155,9 @@ function handlePostback(sender_psid, received_postback) {
 
   // Set the response based on the postback payload
   if (payload === 'yes') {
-    response = { "text": "Thanks!" }
+    response = { "text": "Nice! 👍" }
   } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
+    response = { "text": "Okay... 😒 " }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
@@ -185,3 +186,7 @@ function callSendAPI(sender_psid, response) {
     }
   }); 
 }
+
+const emojis = [
+  "😒","😍","😃","🤔","☺️","🤐","😲"
+]
