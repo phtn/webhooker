@@ -109,6 +109,9 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {    
     // Create the payload for a basic text message, which
     // will be added to the body of our request to the Send API
+
+
+
     response = {
       "text": emojis[Math.floor(Math.random()*emojis.length)]
     }
@@ -124,7 +127,7 @@ function handleMessage(sender_psid, received_message) {
             {
             "title": "Awesome! 😃",
             "subtitle": "Do you have more to share?",
-            "image_url": attachment_url,
+            "image_url": "https://nicolamccrabbe.com/wp-content/uploads/2018/02/smiley-cartoon-with-thumb-up-vector-art-illustration-thumbs-up-emoticon-thumbs-up-emoji-clipart-612_404-300x198.jpg",
             "buttons": [
               {
                 "type": "postback",
@@ -152,28 +155,28 @@ function handlePostback(sender_psid, received_postback) {
    let response;
   // Get the payload for the postback
   let payload = received_postback.payload;
-  let profileUrl = `https://graph.facebook.com/v2.6/${sender_psid}?fields=first_name&access_token=${PAGE_ACCESS_TOKEN}`
+  // let profileUrl = `https://graph.facebook.com/v2.6/${sender_psid}?fields=first_name&access_token=${PAGE_ACCESS_TOKEN}`
 
-  const getFirstName = url => {
-    let firstName;
-    request({
-      url: url,
-      json: true
-    }, function(err, res, body){
-      if(!err && res.statusCode === 200){
-        firstName = body.first_name
-      }
-      return firstName
-      console.log(res.statusCode)
-    })
-  }
+  // const getFirstName = url => {
+  //   let firstName;
+  //   request({
+  //     url: url,
+  //     json: true
+  //   }, function(err, res, body){
+  //     if(!err && res.statusCode === 200){
+  //       firstName = body.first_name
+  //     }
+  //     return firstName
+  //     console.log(res.statusCode)
+  //   })
+  // }
   
 
   // Set the response based on the postback payload
   if (payload === 'yes') {
-    response = { "text": `Nice!!👍 You deserve a raise ${getFirstName(profileUrl)}! 🤑` }
+    response = { "text": `Nice! 👍 You deserve a raise! 🤑🤑🤑` }
   } else if (payload === 'no') {
-    response = { "text": "Okay... I'll tell Harry about it 😒 " }
+    response = { "text": "Share more photos to increase your chances of winning! ️☺️" }
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
