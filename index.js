@@ -24,6 +24,7 @@
 const PAGE_ACCESS_TOKEN = process.env.FB_ACCESS;
 const FB_VERIFY = process.env.FB_VERIFY;
 
+
 // Imports dependencies and set up http server
 const 
   request = require('request'),
@@ -127,7 +128,7 @@ function handleMessage(sender_psid, received_message) {
             {
             "title": "Awesome! 😃",
             "subtitle": "Do you have more to share?",
-            "image_url": "https://nicolamccrabbe.com/wp-content/uploads/2018/02/smiley-cartoon-with-thumb-up-vector-art-illustration-thumbs-up-emoticon-thumbs-up-emoji-clipart-612_404-300x198.jpg",
+            "image_url": postbackImages[Math.floor(Math.random()*postbackImages.length)],
             "buttons": [
               {
                 "type": "postback",
@@ -213,3 +214,7 @@ const emojis = [
 const reactions = [
   "😒","😍","😃","🤔","☺️","🤐","😲"
 ]
+
+const t1 = require('./assets/thumbs-up.svg')
+
+const postbackImages = [t1]
