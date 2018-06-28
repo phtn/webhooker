@@ -33,7 +33,7 @@ const
   app = express().use(body_parser.json()); // creates express http server
 
   // const t1 = require('./assets/thumbs-up.svg')
-import t1 from './assets/thumbs-up.svg'
+
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
@@ -220,4 +220,6 @@ const reactions = [
 
 
 
-const postbackImages = [t1]
+const postbackImages = [
+  './assets/thumbs-up.svg'
+]
