@@ -155,13 +155,16 @@ function handlePostback(sender_psid, received_postback) {
   let profileUrl = `https://graph.facebook.com/v2.6/${sender_psid}?fields=first_name&access_token=${PAGE_ACCESS_TOKEN}`
 
   const getFirstName = url => {
+    let firstName;
     request({
       url: url,
       json: true
     }, function(err, res, body){
       if(!err && res.statusCode === 200){
-        return body.first_name
+        firstName = body.first_name
       }
+      return firstName
+      console.log(res.statusCode)
     })
   }
   
